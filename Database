@@ -1,0 +1,40 @@
+CREATE TABLE companies (
+    company_id SERIAL PRIMARY KEY,
+    company_name VARCHAR(255) UNIQUE NOT NULL,
+    industry VARCHAR(255),
+    website VARCHAR(255),
+    description TEXT
+);
+
+CREATE TABLE campaigns (
+    campaign_id SERIAL PRIMARY KEY,
+    campaign_name VARCHAR(255) NOT NULL,
+    start_date DATE,
+    end_date DATE,
+    budget DECIMAL(15, 2),
+    target_audience TEXT
+);
+
+CREATE TABLE leads (
+    lead_id SERIAL PRIMARY KEY,
+    campaign_id INT REFERENCES campaigns(campaign_id),
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    status VARCHAR(50) DEFAULT 'New',
+    generated_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE revenue (
+    revenue_id SERIAL PRIMARY KEY,
+    campaign_id INT REFERENCES campaigns(campaign_id),
+    amount DECIMAL(15, 2) NOT NULL,
+    transaction_date DATE NOT NULL
+);
+
+CREATE TABLE market_data (
+    data_id SERIAL PRIMARY KEY,
+    market_name VARCHAR(255) NOT NULL,
+    market_size_usd BIGINT,
+    data_source VARCHAR(255),
+    year INT
+);
